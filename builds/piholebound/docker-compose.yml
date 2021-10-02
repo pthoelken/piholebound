@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  pihole:
+    container_name: pihole
+    image: pthoelken/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "80:80/tcp"
+    environment:
+      TZ: 'Europe/Berlin'
+      WEBPASSWORD: 'YourRandomPassword'
+    volumes:
+      - './etc-pihole/:/etc/pihole/'
+      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    cap_add:
+      - NET_ADMIN
+    links:
+      - unbound
+    networks:
+      - piholebound
+    depends_on:
+      - unbound
+    restart: unless-stopped
+
+  unbound:
+    container_name: unbound
+    image: pthoelken/unbound
+    ports:
+      - 53:53
+    volumes:
+      - ./config:/config
+      - ./logs:/logs
+    environment:
+      - CONTAINER_NAME=unbound
+    networks:
+      - piholebound
+    restart: always
+
+networks:
+  services:
+    external: true

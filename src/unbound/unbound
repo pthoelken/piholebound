@@ -1,0 +1,12 @@
+#!/bin/bash -ex
+
+M=$(date +%m)
+if [ $M -eq 1 -o $M -eq 7 ];then
+        O=/tmp/root.hints.$$
+        dig +bufsize=1200 +norec NS . @a.root-servers.net > $O 2>/dev/null
+        RET=$?
+        if [ $RET -eq 0 ];then
+                mv $O /var/lib/unbound/root.hints
+                systemctl restart unbound
+        fi
+fi
