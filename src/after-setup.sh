@@ -26,14 +26,9 @@ DNSSEC=false
 REV_SERVER=false
 EOF
 
-python3 /opt/whitelist/scripts/whitelist.py
-
-wget https://v.firebog.net/hosts/lists.php?type=tick -o adlist.tmp
-wget https://raw.githubusercontent.com/pthoelken/piholeunbound/main/src/adlists.tmp -o adlist1.tmp
-
-cat adlist.tmp >> /etc/pihole/adlists.list
-cat adlist1.tmp >> /etc/pihole/adlists.list
-
-/bin/bash /opt/updateGrav/updateGrav
+# curl https://raw.githubusercontent.com/pthoelken/piholeunbound/main/src/adlists.tmp >> /etc/pihole/adlists.list
+# curl https://v.firebog.net/hosts/lists.php?type=tick >> /etc/pihole/adlists.list
+# /bin/bash /opt/updateGrav/updateGrav
+# python3 /opt/whitelist/scripts/whitelist.py
 
 /usr/local/bin/pihole restartdns

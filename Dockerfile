@@ -45,6 +45,12 @@ RUN echo "0 1 * * */7   root    /opt/whitelist/scripts/whitelist.py" >> /etc/cro
 RUN echo "0 2 * * */7   root    /opt/updateGrav/updateGrav" >> /etc/crontab
 
 RUN echo "edns-packet-max=1232" > /etc/dnsmasq.d/99-edns.conf
+
+RUN echo "curl https://raw.githubusercontent.com/pthoelken/piholeunbound/main/src/adlists.tmp >> /etc/pihole/adlists.list" >> /start.sh
+RUN echo "curl https://v.firebog.net/hosts/lists.php?type=tick >> /etc/pihole/adlists.list" >> /start.sh
+RUN echo "/bin/bash /opt/updateGrav/updateGrav" >> /start.sh
+RUN echo "python3 /opt/whitelist/scripts/whitelist.py" >> /start.sh
+RUN echo "/usr/local/bin/pihole restartdns" >> /start.sh
 RUN echo "/bin/bash /after-setup.sh" >> /start.sh
 
 RUN apt -y --purge autoremove \
