@@ -12,8 +12,8 @@ services:
       TZ: 'Europe/Berlin'
       WEBPASSWORD: 'YOUR-STRONG-PASSWORD'
     volumes:
-      - './etc-piholeunbound/:/etc/pihole/'
-      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+      - './piholeunbound/pihole:/etc/pihole/'
+      - './piholeunbound/dnsmasq.d/:/etc/dnsmasq.d/'
     cap_add:
       - NET_ADMIN
     depends_on:
