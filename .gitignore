@@ -1,1 +1,2 @@
-/etc*
+etc-dnsmasq.d/
+etc-piholeunbound/
