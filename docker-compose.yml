@@ -11,11 +11,9 @@ services:
     environment:
       TZ: 'Europe/Berlin'
       WEBPASSWORD: 'YOUR-STRONG-PASSWORD'
-    volumes:
-      - './piholeunbound/pihole:/etc/pihole/'
-      - './piholeunbound/dnsmasq.d/:/etc/dnsmasq.d/'
+    # volumes:
+    #   - './piholeunbound/pihole:/etc/pihole/'
+    #   - './piholeunbound/dnsmasq.d/:/etc/dnsmasq.d/'
     cap_add:
       - NET_ADMIN
-    depends_on:
-      - unbound
     restart: always
