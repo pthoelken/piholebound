@@ -1,4 +1,4 @@
-FROM pihole/pihole:latest
+FROM debian:bullseye-slim
 LABEL maintainer="Patrick Thoelken <me@patrick-thoelken.de>"
 
 COPY /src/VERSION /etc/docker-pi-hole-version
@@ -6,14 +6,16 @@ COPY /src/pi-hole.conf /home/pi-hole.conf
 COPY /src/unbound /home/unbound
 COPY /src/setupVars.conf /home/setupVars.conf
 COPY /src/updateGrav /home/updateGrav
-COPY /src/unbound_s6-init.sh unbound_s6-init.sh
-
 
 RUN mkdir -p /var/log/unbound/
 RUN touch /var/log/unbound/unbound.log
 
 RUN apt -y update && apt -y upgrade
-RUN apt -y install git wget nano dos2unix unbound python3 python3-setuptools
+RUN apt -y install git wget nano dos2unix unbound python3 python3-setuptools curl bash git
+
+RUN git clone --depth 1 https://github.com/pi-hole/pi-hole.git Pi-hole
+RUN cd "Pi-hole/automated install/"
+RUN bash basic-install.sh
 
 RUN git clone https://github.com/anudeepND/whitelist.git /opt/whitelist
 RUN chmod +x /opt/whitelist/scripts/whitelist.py
@@ -52,12 +54,11 @@ RUN echo "0 1 * * */7     root    /opt/whitelist/scripts/whitelist.py" >> /etc/c
 RUN echo "0 2 * * */7     root    /opt/updateGrav/updateGrav https://v.firebog.net/hosts/lists.php?type=tick" >> /etc/crontab
 RUN echo "0 3 * * */7     root    /opt/updateGrav/updateGrav https://raw.githubusercontent.com/pthoelken/piholeunbound/main/src/adlists.tmp" >> /etc/crontab
 
+
 RUN /etc/init.d/cron restart
 RUN python3 /opt/whitelist/scripts/whitelist.py
 RUN /opt/updateGrav/updateGrav https://v.firebog.net/hosts/lists.php?type=tick
 RUN /opt/updateGrav/updateGrav https://raw.githubusercontent.com/pthoelken/piholeunbound/main/src/adlists.tmp
-
-RUN echo "edns-packet-max=1232" > /etc/dnsmasq.d/99-edns.conf
 
 RUN pihole -g
 
@@ -83,9 +84,5 @@ ENV DNSMASQ_USER pihole
 ENV PATH /opt/pihole:${PATH}
 
 HEALTHCHECK CMD dig +short +norecurse +retry=0 @127.0.0.1 pi.hole || exit 1
-
-
-RUN chmod +x unbound_s6-init.sh
-ENTRYPOINT ./unbound_s6-init.sh
 
 SHELL ["/bin/bash", "-c"]
