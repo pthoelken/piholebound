@@ -52,7 +52,7 @@ RUN echo "0 2 * * */7     root    /opt/updateGrav/updateGrav" >> /etc/crontab
 RUN /etc/init.d/cron restart
 RUN python3 /opt/whitelist/scripts/whitelist.py
 RUN /opt/updateGrav/updateGrav https://v.firebog.net/hosts/lists.php?type=tick
-RUN /opt/updateGrav/updateGrav 
+RUN /opt/updateGrav/updateGrav https://raw.githubusercontent.com/pthoelken/piholeunbound/main/src/adlists.tmp
 
 RUN pihole -g
 
