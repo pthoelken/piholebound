@@ -36,21 +36,17 @@ RUN chmod +x unbound_s6-init.sh
 
 RUN dos2unix /opt/updateGrav/updateGrav
 RUN dos2unix /etc/cron.monthly/unbound
+RUN dos2unix /post-installation.sh
 
 RUN pihole --regex "^wpad\."
 RUN pihole -g
 
-RUN echo "0 */12 * * *  root    pihole -g" >> /etc/crontab
 RUN echo "0 4 * * *     root    pihole restartdns" >> /etc/crontab
-RUN echo "0 1 * * */7   root    /opt/whitelist/scripts/whitelist.py" >> /etc/crontab
-RUN echo "0 2 * * */7   root    /opt/updateGrav/updateGrav" >> /etc/crontab
+RUN echo "0 1 * * */7   root    /usr/bin/python3 /opt/whitelist/scripts/whitelist.py" >> /etc/crontab
+RUN echo "0 2 * * */7   root    /bin/bash /opt/updateGrav/updateGrav" >> /etc/crontab
 
 RUN echo "edns-packet-max=1232" > /etc/dnsmasq.d/99-edns.conf
 RUN echo "$VERSION" > /etc/docker-pi-hole-version
-
-# RUN echo "curl https://dbl.oisd.nl/basic/ | sed '/^#/d' | tail -n +2 >> /etc/pihole/adlists.list" >> /start.sh
-RUN echo "curl https://raw.githubusercontent.com/pthoelken/piholeunbound/main/src/adlists.tmp >> /etc/pihole/adlists.list" >> /start.sh
-RUN echo "curl https://v.firebog.net/hosts/lists.php?type=tick >> /etc/pihole/adlists.list" >> /start.sh
 RUN echo "/bin/bash /post-installation.sh" >> /start.sh
 
 RUN apt -y --purge autoremove \

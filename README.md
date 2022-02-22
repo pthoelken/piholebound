@@ -10,7 +10,6 @@ Please be informed, that the container start needs to be 3-5 Minutes in case of 
 * Automatic inserts of AdLists 
 
 # docker-compose.yml
-
 ```version: "3.4"
 
 services:
