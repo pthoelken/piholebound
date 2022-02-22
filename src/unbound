@@ -7,6 +7,6 @@ if [ $M -eq 1 -o $M -eq 7 ];then
         RET=$?
         if [ $RET -eq 0 ];then
                 mv $O /var/lib/unbound/root.hints
-                systemctl restart unbound
+                /etc/init.d/unbound restart
         fi
 fi

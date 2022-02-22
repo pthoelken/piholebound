@@ -1,5 +1,8 @@
-# PiHoleUnbound - Your PiHole with some additional Features
+# PiHoleUnbound - PiHole + Unbound
 * First initial release on DockerHub
+
+# Informations
+Please be informed, that the container start needs to be 3-5 Minutes in case of updating all blacklist databases. When your web interface is up you can use your pihole. Otherwise you can inspect your container with docker logs <containername> to check the status of starting.
 
 # Features
 * Automatic Grav Update

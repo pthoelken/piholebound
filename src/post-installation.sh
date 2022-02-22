@@ -26,6 +26,8 @@ DNSSEC=true
 REV_SERVER=false
 EOF
 
+/bin/bash /opt/pihole/updatecheck.sh
+/bin/bash /opt/pihole/update.sh
 /usr/bin/python3 /opt/whitelist/scripts/whitelist.py
 /bin/bash /opt/updateGrav/updateGrav
 /bin/bash /usr/local/bin/pihole restartdns
