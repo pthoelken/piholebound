@@ -24,9 +24,15 @@ services:
     environment:
       TZ: 'Europe/Berlin'
       WEBPASSWORD: 'YOUR-STRONG-PASSWORD'
+      VIRTUAL_HOST: "pi.hole"
+      SERVERIP: "127.0.0.1"
+      HOSTNAME: "piholeunbound"
     volumes:
       - './piholeunbound/pihole:/etc/pihole/'
       - './piholeunbound/dnsmasq.d/:/etc/dnsmasq.d/'
+    dns: 
+      - 1.1.1.1
+      - 1.0.0.1
     cap_add:
       - NET_ADMIN
     restart: always
