@@ -39,3 +39,6 @@ services:
 
 # Docker Hub Project Page
 * https://hub.docker.com/r/pthoelken/piholeunbound
+
+# GitHub Project Page
+* https://github.com/pthoelken/piholeunbound
