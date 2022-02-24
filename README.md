@@ -38,4 +38,4 @@ services:
 ```
 
 # Docker Hub Project Page
-* https://hub.docker.com/repository/docker/pthoelken/piholeunbound
+* https://hub.docker.com/r/pthoelken/piholeunbound
